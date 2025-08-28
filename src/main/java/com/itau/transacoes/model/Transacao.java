@@ -11,9 +11,9 @@ public class Transacao {
     @PositiveOrZero
     private Double valor;
 
-    @NotNull
-    private OffsetDateTime dataHora;
+    private OffsetDateTime dataHora; 
 
+    
     public Double getValor() {
         return valor;
     }

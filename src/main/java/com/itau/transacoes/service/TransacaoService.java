@@ -34,7 +34,8 @@ public class TransacaoService {
         OffsetDateTime agora = OffsetDateTime.now();
 
         DoubleSummaryStatistics stats = todas.stream()
-                .filter(t -> Duration.between(t.getDataHora(), agora).getSeconds() <= SEGUNDOS_STATS)
+                .filter(t -> !t.getDataHora().isAfter(agora) &&
+                        Duration.between(t.getDataHora(), agora).getSeconds() <= SEGUNDOS_STATS)
                 .mapToDouble(Transacao::getValor)
                 .summaryStatistics();
 

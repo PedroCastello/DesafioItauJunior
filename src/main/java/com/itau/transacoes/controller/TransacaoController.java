@@ -1,5 +1,7 @@
 package com.itau.transacoes.controller;
 
+import java.time.OffsetDateTime;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,11 +27,17 @@ public class TransacaoController {
 
     @PostMapping("/transacao")
     public ResponseEntity<Void> criarTransacao(@RequestBody @Valid Transacao transacao) {
-        if (transacao.getValor() < 0 || transacao.getDataHora().isAfter(java.time.OffsetDateTime.now())) {
+        
+        if (transacao.getDataHora() == null) {
+            transacao.setDataHora(OffsetDateTime.now());
+        }
+
+        if (transacao.getValor() < 0 || transacao.getDataHora().isAfter(OffsetDateTime.now())) {
             return ResponseEntity.unprocessableEntity().build();
         }
+
         service.salvarTransacao(transacao);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build(); 
     }
 
     @DeleteMapping("/transacao")
